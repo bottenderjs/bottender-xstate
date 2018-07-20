@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bottender": "^0.14.34"
+    "bottender": "^0.15.1"
   }
 }
