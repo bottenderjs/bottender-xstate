@@ -7,7 +7,40 @@
   "files": [
     "src"
   ],
+  "scripts": {
+    "precommit": "lint-staged",
+    "lint": "eslint .",
+    "lint:fix": "yarn run lint -- --fix",
+    "lint:staged": "lint-staged",
+    "test": "yarn run lint && yarn run testonly",
+    "testonly": "jest",
+    "testonly:cov": "jest --coverage --runInBand --forceExit",
+    "testonly:watch": "jest --runInBand --watch"
+  },
   "dependencies": {
+    "warning": "^4.0.1",
     "xstate": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-yoctol-base": "^0.16.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-prettier": "^2.6.1",
+    "husky": "^0.14.3",
+    "jest": "^23.2.0",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.7",
+    "prettier-package-json": "^1.6.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "package.json": [
+      "prettier-package-json --write",
+      "git add"
+    ]
   }
 }

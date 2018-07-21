@@ -1,38 +1,42 @@
+const warning = require('warning');
 const { Machine } = require('xstate');
 
-function createHandler(config, mapContextToXStateEvent, actions) {
+function bottenderXState({
+  config,
+  mapContextToXStateEvent,
+  actions,
+  onEvent,
+  onAction,
+}) {
   return async context => {
     const machine = Machine(config);
 
-    const currentState = context.state.machine || config.initial;
+    const currentState = context.state.xstate || config.initial;
     const event = await mapContextToXStateEvent(context);
+
+    if (onEvent) {
+      onEvent(event, context);
+    }
 
     const nextState = machine.transition(currentState, event);
 
     const triggerdActions = nextState.actions;
 
-    for (triggerdAction of triggerdActions) {
-      if (typeof actions[triggerdAction] === 'function') {
-        await actions[triggerdAction](context);
+    for (const actionName of triggerdActions) {
+      const action = actions[actionName];
+      if (typeof action === 'function') {
+        if (onAction) {
+          onAction(action.displayName || action.name, context);
+        }
+        await action(context); // eslint-disable-line no-await-in-loop
       } else {
-        warning(false, `${actions[triggerdAction]} is missing in actions`);
+        warning(false, `${actionName} is missing in actions`);
       }
     }
 
     // FIXME: where?
-    context.setState({ machine: nextState.value });
+    context.setState({ xstate: nextState.value });
   };
 }
 
-function createMiddleware(config, mapContextToXStateEvent, actions) {
-  return async (context, next) => {
-    const handler = createHandler(config, mapContextToXStateEvent, actions);
-    await handler(context);
-    await next();
-  };
-}
-
-module.exports = {
-  createMiddleware,
-  createHandler,
-};
+module.exports = bottenderXState;
