@@ -1,4 +1,4 @@
-const { ConsoleBot, middleware } = require('bottender');
+const { ConsoleBot } = require('bottender');
 
 const { createHandler } = require('../src');
 
