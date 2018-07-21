@@ -1,6 +1,6 @@
 const { ConsoleBot, middleware } = require('bottender');
 
-const bottenderXState = require('../src');
+const { createHandler } = require('../src');
 
 const bot = new ConsoleBot({
   fallbackMethods: true,
@@ -45,6 +45,6 @@ const actions = {
   leaveRed: context => context.sendText('leave red'),
 };
 
-bot.onEvent(middleware([bottenderXState(config, mapContextToXStateEvent, actions)]));
+bot.onEvent(createHandler(config, mapContextToXStateEvent, actions));
 
 bot.createRuntime();

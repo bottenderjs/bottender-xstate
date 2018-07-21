@@ -1,8 +1,7 @@
 const { Machine } = require('xstate');
 
-
-function bottenderXState(config, mapContextToXStateEvent, actions) {
-  return async (context, next) => {
+function createHandler(config, mapContextToXStateEvent, actions) {
+  return async context => {
     const machine = Machine(config);
 
     const currentState = context.state.machine || config.initial;
@@ -16,18 +15,24 @@ function bottenderXState(config, mapContextToXStateEvent, actions) {
       if (typeof actions[triggerdAction] === 'function') {
         await actions[triggerdAction](context);
       } else {
-        warning(
-          false,
-          `${actions[triggerdAction]} is missing in actions`
-        );
+        warning(false, `${actions[triggerdAction]} is missing in actions`);
       }
     }
-
-    await next();
 
     // FIXME: where?
     context.setState({ machine: nextState.value });
   };
 }
 
-module.exports = bottenderXState;
+function createMiddleware(config, mapContextToXStateEvent, actions) {
+  return async (context, next) => {
+    const handler = createHandler(config, mapContextToXStateEvent, actions);
+    await handler(context);
+    await next();
+  };
+}
+
+module.exports = {
+  createMiddleware,
+  createHandler,
+};
