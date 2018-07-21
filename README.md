@@ -21,7 +21,7 @@ npm install bottender-xstate
 | onEvent                 | `Function`     | Callback to be called when trigger event.    |
 | onAction                | `Function`     | Callback to be called when trigger action.   |
 
-````js
+```js
 const bottenderXState = require('bottender-xstate');
 
 const config = {
@@ -75,4 +75,3 @@ bot.onEvent(
 ## License
 
 MIT © [Yoctol](https://github.com/Yoctol/bottender-xstate)
-````
