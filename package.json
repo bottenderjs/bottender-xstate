@@ -1,6 +1,6 @@
 {
   "name": "bottender-xstate",
-  "description": "",
+  "description": "Finite State Machines in Bottender using xstate",
   "license": "MIT",
   "version": "0.0.3",
   "main": "src/index.js",
@@ -32,6 +32,30 @@
     "lint-staged": "^7.2.0",
     "prettier": "^1.13.7",
     "prettier-package-json": "^1.6.0"
+  },
+  "keywords": [
+    "bot",
+    "bottender",
+    "state-machine",
+    "xstate"
+  ],
+  "engines": {
+    "node": ">=7.6"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "transformIgnorePatterns": [
+      "/node_modules/",
+      "lib"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "lib"
+    ],
+    "testEnvironment": "node",
+    "timers": "fake",
+    "resetModules": true,
+    "resetMocks": true
   },
   "lint-staged": {
     "*.js": [
