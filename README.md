@@ -1,5 +1,6 @@
 # bottender-xstate
 
+[![CircleCI](https://circleci.com/gh/Yoctol/bottender-xstate.svg?style=shield&circle-token=df773eab701966e6af5b8b57a8969764c3d351f8)](https://circleci.com/gh/Yoctol/bottender-xstate)
 [![npm](https://img.shields.io/npm/v/bottender-xstate.svg?style=flat-square)](https://www.npmjs.com/package/bottender-xstate)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
