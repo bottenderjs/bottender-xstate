@@ -21,7 +21,7 @@ jobs:
           name: install dependencies
           command: |
             yarn config set cache-folder .yarn-cache
-            yarn
+            yarn --frozen-lockfile
       - save_cache:
           key: node-8-cache-{{checksum "yarn.lock"}}
           paths:
