@@ -58,7 +58,7 @@ const mapContextToXStateEvent = () => {
   return event;
 };
 
-const actions = {
+const actionMap = {
   enterMethodCash: context => context.sendText('enter method cash'),
   enterMethodCheck: context => context.sendText('enter method check'),
   enterMethod: context => context.sendText('enter method'),
@@ -73,7 +73,7 @@ bot.onEvent(
   bottenderXState({
     config,
     mapContextToXStateEvent,
-    actions,
+    actionMap,
   })
 );
 
