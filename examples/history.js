@@ -4,7 +4,6 @@ const bottenderXState = require('../src');
 
 const bot = new ConsoleBot();
 
-// FIXME: $history state is not supported at this moment
 const config = {
   initial: 'method',
   states: {

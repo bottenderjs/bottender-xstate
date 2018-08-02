@@ -1,5 +1,5 @@
 const warning = require('warning');
-const { Machine } = require('xstate');
+const { State, Machine } = require('xstate');
 
 function bottenderXState({
   config,
@@ -11,7 +11,11 @@ function bottenderXState({
   return async context => {
     const machine = Machine(config);
 
-    const currentState = context.state.xstate || machine.initialState;
+    const contextXState = context.state.xstate;
+
+    const currentState = contextXState
+      ? new State(contextXState.value, contextXState.historyValue)
+      : machine.initialState;
     const event = await mapContextToXStateEvent(context);
 
     if (onEvent) {
@@ -35,7 +39,12 @@ function bottenderXState({
     }
 
     // FIXME: where?
-    context.setState({ xstate: nextState.value });
+    context.setState({
+      xstate: {
+        value: nextState.value,
+        historyValue: nextState.historyValue,
+      },
+    });
   };
 }
 

@@ -74,7 +74,13 @@ it('should call setState with xstate state value', async () => {
   await handler(context);
 
   expect(context.setState).toBeCalledWith({
-    xstate: 'yellow',
+    xstate: {
+      value: 'yellow',
+      historyValue: {
+        current: 'yellow',
+        states: { green: undefined, red: undefined, yellow: undefined },
+      },
+    },
   });
 });
 
@@ -87,7 +93,13 @@ it('should load state from session', async () => {
 
   const context = {
     state: {
-      xstate: 'yellow',
+      xstate: {
+        value: 'yellow',
+        historyValue: {
+          current: 'yellow',
+          states: { green: undefined, red: undefined, yellow: undefined },
+        },
+      },
     },
     setState: jest.fn(),
     sendText: jest.fn(),
@@ -99,7 +111,13 @@ it('should load state from session', async () => {
   expect(context.sendText).toBeCalledWith('leave yellow');
 
   expect(context.setState).toBeCalledWith({
-    xstate: 'red',
+    xstate: {
+      value: 'red',
+      historyValue: {
+        current: 'red',
+        states: { green: undefined, red: undefined, yellow: undefined },
+      },
+    },
   });
 });
 
