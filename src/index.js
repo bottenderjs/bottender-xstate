@@ -11,7 +11,7 @@ function bottenderXState({
   return async context => {
     const machine = Machine(config);
 
-    const currentState = context.state.xstate || config.initial;
+    const currentState = context.state.xstate || machine.initialState;
     const event = await mapContextToXStateEvent(context);
 
     if (onEvent) {
