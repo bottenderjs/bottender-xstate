@@ -92,7 +92,7 @@ const mapContextToXStateEvent = () => {
   return event;
 };
 
-const actions = {
+const actionMap = {
   enterBoldOn: context => context.sendText('enter bold on'),
   enterBoldOff: context => context.sendText('enter bold off'),
   enterUnderlineOn: context => context.sendText('enter underline on'),
@@ -117,7 +117,7 @@ bot.onEvent(
   bottenderXState({
     config,
     mapContextToXStateEvent,
-    actions,
+    actionMap,
   })
 );
 

@@ -4,7 +4,7 @@ const { State, Machine } = require('xstate');
 function bottenderXState({
   config,
   mapContextToXStateEvent,
-  actions,
+  actionMap,
   onEvent,
   onAction,
 }) {
@@ -15,7 +15,7 @@ function bottenderXState({
 
     const currentState = contextXState
       ? new State(contextXState.value, contextXState.historyValue)
-      : config.initial;
+      : machine.initialState;
     const event = await mapContextToXStateEvent(context);
 
     if (onEvent) {
@@ -27,14 +27,14 @@ function bottenderXState({
     const triggerdActions = nextState.actions;
 
     for (const actionName of triggerdActions) {
-      const action = actions[actionName];
+      const action = actionMap[actionName];
       if (typeof action === 'function') {
         if (onAction) {
           onAction(action.displayName || action.name, context);
         }
         await action(context); // eslint-disable-line no-await-in-loop
       } else {
-        warning(false, `${actionName} is missing in actions`);
+        warning(false, `${actionName} is missing in actionMap`);
       }
     }
 
