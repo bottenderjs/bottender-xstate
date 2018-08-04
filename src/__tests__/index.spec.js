@@ -161,3 +161,43 @@ it('should call onAction with action name', async () => {
   expect(onAction).toBeCalledWith('enterYellow', context);
   expect(onAction).toBeCalledWith('leaveGreen', context);
 });
+
+it('should support named guards', async () => {
+  const someCond = jest.fn(() => true);
+  const handler = bottenderXState({
+    config: {
+      key: 'light',
+      initial: 'green',
+      states: {
+        green: {
+          on: {
+            TIMER: { yellow: { cond: 'someCond' } },
+          },
+          onExit: 'leaveGreen',
+        },
+        yellow: {
+          on: {},
+          onEntry: 'enterYellow',
+        },
+      },
+    },
+    mapContextToXStateEvent,
+    actionMap,
+    guards: {
+      someCond,
+    },
+  });
+
+  const context = {
+    state: {},
+    setState: jest.fn(),
+    sendText: jest.fn(),
+  };
+
+  await handler(context);
+
+  expect(someCond).toBeCalledWith({}, { type: 'TIMER' }, 'green');
+  expect(someCond).toHaveReturnedWith(true);
+  expect(context.sendText).toBeCalledWith('enter yellow');
+  expect(context.sendText).toBeCalledWith('leave green');
+});

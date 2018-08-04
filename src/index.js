@@ -5,11 +5,12 @@ function bottenderXState({
   config,
   mapContextToXStateEvent,
   actionMap,
+  guards = {},
   onEvent,
   onAction,
 }) {
   return async context => {
-    const machine = Machine(config);
+    const machine = Machine(config, { guards });
 
     const contextXState = context.state.xstate;
 
