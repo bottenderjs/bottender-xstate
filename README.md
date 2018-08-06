@@ -18,7 +18,8 @@ npm install bottender-xstate
 | ----------------------- | -------------- | -------------------------------------------- |
 | config                  | `XStateConfig` | Config to be passed to xstate.               |
 | mapContextToXStateEvent | `Function`     | Mapper for create xstate event from context. |
-| actionMap               | `Object`       | Action map.                                  |
+| actionMap               | `Object`       | Map of named actions.                        |
+| guards                  | `Object`       | Map of named guards.                         |
 | onEvent                 | `Function`     | Callback to be called when trigger event.    |
 | onAction                | `Function`     | Callback to be called when trigger action.   |
 
@@ -72,6 +73,9 @@ bot.onEvent(
   })
 );
 ```
+
+You can find more examples in the
+[examples](https://github.com/Yoctol/bottender-xstate/tree/master/examples) folder.
 
 ## License
 
