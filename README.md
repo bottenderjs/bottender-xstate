@@ -18,7 +18,7 @@ npm install bottender-xstate
 | ----------------------- | -------------- | -------------------------------------------- |
 | config                  | `XstateConfig` | Config to be passed to xstate.               |
 | mapContextToXstateEvent | `Function`     | Mapper for create xstate event from context. |
-| actionMap               | `Object`       | Map of named actions.                        |
+| actions                 | `Object`       | Map of named actions.                        |
 | guards                  | `Object`       | Map of named guards.                         |
 | onEvent                 | `Function`     | Callback to be called when trigger event.    |
 | onAction                | `Function`     | Callback to be called when trigger action.   |
@@ -56,7 +56,7 @@ const config = {
 
 const mapContextToXstateEvent = () => 'TIMER';
 
-const actionMap = {
+const actions = {
   enterGreen: context => context.sendText('enter green'),
   enterYellow: context => context.sendText('enter yellow'),
   enterRed: context => context.sendText('enter red'),
@@ -69,7 +69,7 @@ bot.onEvent(
   bottenderXstate({
     config,
     mapContextToXstateEvent,
-    actionMap,
+    actions,
   })
 );
 ```

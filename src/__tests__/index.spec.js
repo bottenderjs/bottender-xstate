@@ -30,7 +30,7 @@ const config = {
 
 const mapContextToXstateEvent = () => 'TIMER';
 
-const actionMap = {
+const actions = {
   enterGreen: context => context.sendText('enter green'),
   enterYellow: context => context.sendText('enter yellow'),
   enterRed: context => context.sendText('enter red'),
@@ -43,7 +43,7 @@ it('should call match actions', async () => {
   const handler = bottenderXstate({
     config,
     mapContextToXstateEvent,
-    actionMap,
+    actions,
   });
 
   const context = {
@@ -62,7 +62,7 @@ it('should call setState with xstate state value', async () => {
   const handler = bottenderXstate({
     config,
     mapContextToXstateEvent,
-    actionMap,
+    actions,
   });
 
   const context = {
@@ -88,7 +88,7 @@ it('should load state from session', async () => {
   const handler = bottenderXstate({
     config,
     mapContextToXstateEvent,
-    actionMap,
+    actions,
   });
 
   const context = {
@@ -126,7 +126,7 @@ it('should call onEvent with event', async () => {
   const handler = bottenderXstate({
     config,
     mapContextToXstateEvent,
-    actionMap,
+    actions,
     onEvent,
   });
 
@@ -146,7 +146,7 @@ it('should call onAction with action name', async () => {
   const handler = bottenderXstate({
     config,
     mapContextToXstateEvent,
-    actionMap,
+    actions,
     onAction,
   });
 
@@ -182,7 +182,7 @@ it('should support named guards', async () => {
       },
     },
     mapContextToXstateEvent,
-    actionMap,
+    actions,
     guards: {
       someCond,
     },
