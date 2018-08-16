@@ -3,7 +3,7 @@
 - [new] Implement basic usage:
 
 ```js
-const bottenderXState = require('bottender-xstate');
+const bottenderXstate = require('bottender-xstate');
 
 const config = {
   key: 'light',
@@ -33,7 +33,7 @@ const config = {
   },
 };
 
-const mapContextToXStateEvent = () => 'TIMER';
+const mapContextToXstateEvent = () => 'TIMER';
 
 const actionMap = {
   enterGreen: context => context.sendText('enter green'),
@@ -45,9 +45,9 @@ const actionMap = {
 };
 
 bot.onEvent(
-  bottenderXState({
+  bottenderXstate({
     config,
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
   })
 );

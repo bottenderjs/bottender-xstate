@@ -1,7 +1,7 @@
 const { ConsoleBot } = require('bottender');
 const randomItem = require('random-item');
 
-const bottenderXState = require('../src');
+const bottenderXstate = require('../src');
 
 const bot = new ConsoleBot();
 
@@ -77,7 +77,7 @@ const config = {
   },
 };
 
-const mapContextToXStateEvent = () => {
+const mapContextToXstateEvent = () => {
   const event = randomItem([
     'TOGGLE_BOLD',
     'TOGGLE_UNDERLINE',
@@ -114,9 +114,9 @@ const actionMap = {
 };
 
 bot.onEvent(
-  bottenderXState({
+  bottenderXstate({
     config,
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
   })
 );

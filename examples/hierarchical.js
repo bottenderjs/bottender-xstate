@@ -1,6 +1,6 @@
 const { ConsoleBot } = require('bottender');
 
-const bottenderXState = require('../src');
+const bottenderXstate = require('../src');
 
 const bot = new ConsoleBot();
 
@@ -57,7 +57,7 @@ const config = {
   },
 };
 
-const mapContextToXStateEvent = () => {
+const mapContextToXstateEvent = () => {
   const event = Math.random() > 0.5 ? 'TIMER' : 'PED_TIMER';
 
   console.log(`Event: ${event}`);
@@ -81,9 +81,9 @@ const actionMap = {
 };
 
 bot.onEvent(
-  bottenderXState({
+  bottenderXstate({
     config,
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
   })
 );

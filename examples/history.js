@@ -1,6 +1,6 @@
 const { ConsoleBot } = require('bottender');
 
-const bottenderXState = require('../src');
+const bottenderXstate = require('../src');
 
 const bot = new ConsoleBot();
 
@@ -35,7 +35,7 @@ const config = {
 
 let count = 0;
 
-const mapContextToXStateEvent = () => {
+const mapContextToXstateEvent = () => {
   count += 1;
 
   let event;
@@ -69,9 +69,9 @@ const actionMap = {
 };
 
 bot.onEvent(
-  bottenderXState({
+  bottenderXstate({
     config,
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
   })
 );

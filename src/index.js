@@ -1,9 +1,9 @@
 const warning = require('warning');
 const { State, Machine } = require('xstate');
 
-function bottenderXState({
+function bottenderXstate({
   config,
-  mapContextToXStateEvent,
+  mapContextToXstateEvent,
   actionMap,
   guards = {},
   onEvent,
@@ -12,12 +12,12 @@ function bottenderXState({
   return async context => {
     const machine = Machine(config, { guards });
 
-    const contextXState = context.state.xstate;
+    const contextXstate = context.state.xstate;
 
-    const currentState = contextXState
-      ? new State(contextXState.value, contextXState.historyValue)
+    const currentState = contextXstate
+      ? new State(contextXstate.value, contextXstate.historyValue)
       : machine.initialState;
-    const event = await mapContextToXStateEvent(context);
+    const event = await mapContextToXstateEvent(context);
 
     if (onEvent) {
       onEvent(event, context);
@@ -49,4 +49,4 @@ function bottenderXState({
   };
 }
 
-module.exports = bottenderXState;
+module.exports = bottenderXstate;
