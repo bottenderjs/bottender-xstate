@@ -1,4 +1,4 @@
-const bottenderXState = require('../');
+const bottenderXstate = require('../');
 
 const config = {
   key: 'light',
@@ -28,7 +28,7 @@ const config = {
   },
 };
 
-const mapContextToXStateEvent = () => 'TIMER';
+const mapContextToXstateEvent = () => 'TIMER';
 
 const actionMap = {
   enterGreen: context => context.sendText('enter green'),
@@ -40,9 +40,9 @@ const actionMap = {
 };
 
 it('should call match actions', async () => {
-  const handler = bottenderXState({
+  const handler = bottenderXstate({
     config,
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
   });
 
@@ -59,9 +59,9 @@ it('should call match actions', async () => {
 });
 
 it('should call setState with xstate state value', async () => {
-  const handler = bottenderXState({
+  const handler = bottenderXstate({
     config,
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
   });
 
@@ -85,9 +85,9 @@ it('should call setState with xstate state value', async () => {
 });
 
 it('should load state from session', async () => {
-  const handler = bottenderXState({
+  const handler = bottenderXstate({
     config,
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
   });
 
@@ -123,9 +123,9 @@ it('should load state from session', async () => {
 
 it('should call onEvent with event', async () => {
   const onEvent = jest.fn();
-  const handler = bottenderXState({
+  const handler = bottenderXstate({
     config,
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
     onEvent,
   });
@@ -143,9 +143,9 @@ it('should call onEvent with event', async () => {
 
 it('should call onAction with action name', async () => {
   const onAction = jest.fn();
-  const handler = bottenderXState({
+  const handler = bottenderXstate({
     config,
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
     onAction,
   });
@@ -164,7 +164,7 @@ it('should call onAction with action name', async () => {
 
 it('should support named guards', async () => {
   const someCond = jest.fn(() => true);
-  const handler = bottenderXState({
+  const handler = bottenderXstate({
     config: {
       key: 'light',
       initial: 'green',
@@ -181,7 +181,7 @@ it('should support named guards', async () => {
         },
       },
     },
-    mapContextToXStateEvent,
+    mapContextToXstateEvent,
     actionMap,
     guards: {
       someCond,
