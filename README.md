@@ -14,14 +14,15 @@ npm install bottender-xstate
 
 ## API Reference
 
-| Param                   | Type           | Description                                  |
-| ----------------------- | -------------- | -------------------------------------------- |
-| config                  | `XstateConfig` | Config to be passed to xstate.               |
-| mapContextToXstateEvent | `Function`     | Mapper for create xstate event from context. |
-| actions                 | `Object`       | Map of named actions.                        |
-| guards                  | `Object`       | Map of named guards.                         |
-| onEvent                 | `Function`     | Callback to be called when trigger event.    |
-| onAction                | `Function`     | Callback to be called when trigger action.   |
+| Param                   | Type            | Description                                                                    |
+| ----------------------- | --------------- | ------------------------------------------------------------------------------ |
+| config                  | `XstateConfig`  | Config to be passed to xstate.                                                 |
+| mapContextToXstateEvent | `Function`      | Mapper for create xstate event from context.                                   |
+| actions                 | `Object`        | Map of named actions.                                                          |
+| guards                  | `Object`        | Map of named guards.                                                           |
+| events                  | `Array<String>` | All events handled by the machine. (required when using `* (catch-all)` event) |
+| onEvent                 | `Function`      | Callback to be called when trigger event.                                      |
+| onAction                | `Function`      | Callback to be called when trigger action.                                     |
 
 ```js
 const bottenderXstate = require('bottender-xstate');
