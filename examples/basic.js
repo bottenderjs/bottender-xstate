@@ -40,7 +40,7 @@ const mapContextToXstateEvent = () => {
   return event;
 };
 
-const actionMap = {
+const actions = {
   enterGreen: context => context.sendText('enter green'),
   enterYellow: context => context.sendText('enter yellow'),
   enterRed: context => context.sendText('enter red'),
@@ -53,7 +53,7 @@ bot.onEvent(
   bottenderXstate({
     config,
     mapContextToXstateEvent,
-    actionMap,
+    actions,
   })
 );
 
