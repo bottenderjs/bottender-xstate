@@ -47,7 +47,11 @@ const config = {
     },
     red: {
       on: {
-        TIMER: 'green',
+        TIMER: {
+          green: {
+            actions: ['fromRedToGreen'],
+          },
+        }
       },
       onEntry: 'enterRed',
       onExit: 'leaveRed',
@@ -64,6 +68,7 @@ const actions = {
   leaveGreen: context => context.sendText('leave green'),
   leaveYellow: context => context.sendText('leave yellow'),
   leaveRed: context => context.sendText('leave red'),
+  fromRedToGreen: context => context.sendText('from red to green'),
 };
 
 bot.onEvent(
