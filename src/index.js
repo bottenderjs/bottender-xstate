@@ -1,16 +1,20 @@
 const warning = require('warning');
 const { State, Machine } = require('xstate');
 
+const transformConfig = require('./transformConfig');
+
 function bottenderXstate({
   config,
   mapContextToXstateEvent,
   actions,
   guards = {},
+  events = [],
   onEvent,
   onAction,
 }) {
   return async context => {
-    const machine = Machine(config, { guards });
+    const transformedConfig = transformConfig(config, { events });
+    const machine = Machine(transformedConfig, { guards });
 
     const contextXstate = context.state.xstate;
 
