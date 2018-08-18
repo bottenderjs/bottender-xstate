@@ -12,7 +12,9 @@ it('should transform catch-all event', () => {
     },
   };
 
-  expect(transformConfig(config, { events: ['OTHER_A', 'OTHER_B'] })).toEqual({
+  expect(
+    transformConfig(config, { events: ['SOMETHING', 'OTHER_A', 'OTHER_B'] })
+  ).toEqual({
     states: {
       a: {
         on: {
@@ -65,13 +67,27 @@ it('should work with hierarchical machines', () => {
     },
   };
 
-  expect(transformConfig(config, { events: ['OTHER_A', 'OTHER_B'] })).toEqual({
+  expect(
+    transformConfig(config, {
+      events: [
+        'SOMETHING',
+        'TIMER',
+        'POWER_OUTAGE',
+        'PED_COUNTDOWN',
+        'OTHER_A',
+        'OTHER_B',
+      ],
+    })
+  ).toEqual({
     key: 'light',
     initial: 'green',
     states: {
       a: {
         on: {
           SOMETHING: 'somthing',
+          TIMER: 'other',
+          POWER_OUTAGE: 'other',
+          PED_COUNTDOWN: 'other',
           OTHER_A: 'other',
           OTHER_B: 'other',
         },
@@ -85,6 +101,9 @@ it('should work with hierarchical machines', () => {
         states: {
           walk: {
             on: {
+              SOMETHING: 'other',
+              TIMER: 'other',
+              POWER_OUTAGE: 'other',
               PED_COUNTDOWN: 'wait',
               OTHER_A: 'other',
               OTHER_B: 'other',
@@ -92,6 +111,9 @@ it('should work with hierarchical machines', () => {
           },
           wait: {
             on: {
+              SOMETHING: 'other',
+              TIMER: 'other',
+              POWER_OUTAGE: 'other',
               PED_COUNTDOWN: 'stop',
               OTHER_A: 'other',
               OTHER_B: 'other',
