@@ -7,7 +7,6 @@ function transformStateOn(on, { events }) {
     (result, value, key) => {
       if (key === '*') {
         return {
-          ...result,
           ...events.reduce(
             (acc, curr) => ({
               ...acc,
@@ -15,6 +14,7 @@ function transformStateOn(on, { events }) {
             }),
             {}
           ),
+          ...result,
         };
       }
 
