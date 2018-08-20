@@ -201,3 +201,66 @@ it('should support named guards', async () => {
   expect(context.sendText).toBeCalledWith('enter yellow');
   expect(context.sendText).toBeCalledWith('leave green');
 });
+
+it('should support transition actions', async () => {
+  const handler = bottenderXstate({
+    config: {
+      key: 'light',
+      initial: 'green',
+      states: {
+        green: {
+          on: {
+            TIMER: 'yellow',
+          },
+          onEntry: 'enterGreen',
+          onExit: 'leaveGreen',
+        },
+        yellow: {
+          on: {
+            TIMER: 'red',
+          },
+          onEntry: 'enterYellow',
+          onExit: 'leaveYellow',
+        },
+        red: {
+          on: {
+            TIMER: {
+              green: {
+                actions: ['fromRedToGreen'],
+              },
+            },
+          },
+          onEntry: 'enterRed',
+          onExit: 'leaveRed',
+        },
+      },
+    },
+    mapContextToXstateEvent,
+    actions: {
+      ...actions,
+      fromRedToGreen: context => context.sendText('from red to green'),
+    },
+  });
+
+  const context = {
+    state: {
+      xstate: {
+        value: 'red',
+        historyValue: {
+          current: 'red',
+          states: { green: undefined, red: undefined, yellow: undefined },
+        },
+      },
+    },
+    setState: jest.fn(),
+    sendText: jest.fn(),
+  };
+
+  await handler(context);
+
+  expect(context.sendText.mock.calls.map(call => call[0])).toEqual([
+    'leave red',
+    'from red to green',
+    'enter green',
+  ]);
+});
