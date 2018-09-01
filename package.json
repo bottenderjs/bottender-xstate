@@ -19,13 +19,13 @@
   },
   "dependencies": {
     "lodash": "^4.17.10",
-    "warning": "^4.0.1",
+    "warning": "^4.0.2",
     "xstate": "^3.3.3"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "eslint": "^5.5.0",
     "eslint-config-prettier": "^3.0.1",
-    "eslint-config-yoctol-base": "^0.17.0",
+    "eslint-config-yoctol-base": "^0.17.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-sort-imports-es6-autofix": "^0.3.0",
