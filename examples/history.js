@@ -20,23 +20,28 @@ const config = {
           onEntry: 'enterMethodCheck',
           onExit: 'leaveMethodCheck',
         },
+        history: {
+          history: true,
+        },
       },
       on: { NEXT: 'review' },
       onEntry: 'enterMethod',
       onExit: 'leaveMethod',
     },
     review: {
-      on: { PREVIOUS: 'method.$history' },
+      on: { PREVIOUS: 'method.history' },
       onEntry: 'enterReview',
       onExit: 'leaveReview',
     },
   },
 };
 
-let count = 0;
+const mapContextToXstateEvent = context => {
+  const count = context.state.extendedState.count + 1;
 
-const mapContextToXstateEvent = () => {
-  count += 1;
+  context.setState({
+    extendedState: { ...context.state.extendedState, count },
+  });
 
   let event;
   switch (count % 3) {
@@ -67,6 +72,8 @@ const actions = {
   leaveMethod: context => context.sendText('leave method'),
   leaveReview: context => context.sendText('leave review'),
 };
+
+bot.setInitialState({ extendedState: { count: 0 } });
 
 bot.onEvent(
   bottenderXstate({
