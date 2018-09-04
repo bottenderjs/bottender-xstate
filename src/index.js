@@ -17,6 +17,7 @@ function bottenderXstate({
     const machine = Machine(transformedConfig, { guards });
 
     const contextXstate = context.state.xstate;
+    const contextExtendedState = context.state.extendedState;
 
     const currentState = contextXstate
       ? new State(contextXstate.value, contextXstate.historyValue)
@@ -27,7 +28,11 @@ function bottenderXstate({
       onEvent(event, context);
     }
 
-    const nextState = machine.transition(currentState, event);
+    const nextState = machine.transition(
+      currentState,
+      event,
+      contextExtendedState
+    );
 
     const triggerdActions = nextState.actions;
 

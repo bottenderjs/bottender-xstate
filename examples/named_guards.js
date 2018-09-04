@@ -11,7 +11,8 @@ const config = {
     green: {
       on: {
         TIMER: {
-          yellow: { cond: 'randomly' },
+          yellow: { cond: 'oneSecondElapsed' },
+          green: { actions: ['updateElapsedTime'] },
         },
       },
       onEntry: 'enterGreen',
@@ -20,7 +21,8 @@ const config = {
     yellow: {
       on: {
         TIMER: {
-          red: { cond: 'randomly' },
+          red: { cond: 'oneSecondElapsed' },
+          yellow: { actions: ['updateElapsedTime'] },
         },
       },
       onEntry: 'enterYellow',
@@ -29,7 +31,8 @@ const config = {
     red: {
       on: {
         TIMER: {
-          green: { cond: 'randomly' },
+          green: { cond: 'oneSecondElapsed' },
+          red: { actions: ['updateElapsedTime'] },
         },
       },
       onEntry: 'enterRed',
@@ -53,7 +56,16 @@ const actions = {
   leaveGreen: context => context.sendText('leave green'),
   leaveYellow: context => context.sendText('leave yellow'),
   leaveRed: context => context.sendText('leave red'),
+  updateElapsedTime: context =>
+    context.setState({
+      extendedState: {
+        ...context.state.extendedState,
+        elapsedTime: context.state.extendedState.elapsedTime + 1,
+      },
+    }),
 };
+
+bot.setInitialState({ extendedState: { elapsedTime: 0 } });
 
 bot.onEvent(
   bottenderXstate({
@@ -61,12 +73,12 @@ bot.onEvent(
     mapContextToXstateEvent,
     actions,
     guards: {
-      randomly: () => {
-        const success = Math.random() > 0.5;
+      oneSecondElapsed: extendedState => {
+        const { elapsedTime } = extendedState;
 
-        console.log(`Transition Success: ${success}`);
+        console.log(`Elapsed Time: ${elapsedTime}`);
 
-        return success;
+        return elapsedTime >= 1000;
       },
     },
   })
