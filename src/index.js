@@ -22,39 +22,45 @@ function bottenderXstate({
     const currentState = contextXstate
       ? new State(contextXstate.value, contextXstate.historyValue)
       : machine.initialState;
-    const event = await mapContextToXstateEvent(context);
+    let xstateEvents = await mapContextToXstateEvent(context);
 
-    if (onEvent) {
-      onEvent(event, context);
+    if (!Array.isArray(xstateEvents)) {
+      xstateEvents = [xstateEvents];
     }
 
-    const nextState = machine.transition(
-      currentState,
-      event,
-      contextExtendedState
-    );
-
-    const triggerdActions = nextState.actions;
-
-    for (const actionName of triggerdActions) {
-      const action = actions[actionName];
-      if (typeof action === 'function') {
-        if (onAction) {
-          onAction(action.displayName || action.name, context);
-        }
-        await action(context); // eslint-disable-line no-await-in-loop
-      } else {
-        warning(false, `${actionName} is missing in actions`);
+    for (const event of xstateEvents) {
+      if (onEvent) {
+        onEvent(event, context);
       }
-    }
 
-    // FIXME: where?
-    context.setState({
-      xstate: {
-        value: nextState.value,
-        historyValue: nextState.historyValue,
-      },
-    });
+      const nextState = machine.transition(
+        currentState,
+        event,
+        contextExtendedState
+      );
+
+      const triggerdActions = nextState.actions;
+
+      for (const actionName of triggerdActions) {
+        const action = actions[actionName];
+        if (typeof action === 'function') {
+          if (onAction) {
+            onAction(action.displayName || action.name, context);
+          }
+          await action(context); // eslint-disable-line no-await-in-loop
+        } else {
+          warning(false, `${actionName} is missing in actions`);
+        }
+      }
+
+      // FIXME: where?
+      context.setState({
+        xstate: {
+          value: nextState.value,
+          historyValue: nextState.historyValue,
+        },
+      });
+    }
   };
 }
 
