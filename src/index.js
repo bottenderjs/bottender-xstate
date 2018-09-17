@@ -36,15 +36,27 @@ function bottenderXstate({
 
     const triggerdActions = nextState.actions;
 
-    for (const actionName of triggerdActions) {
-      const action = actions[actionName];
-      if (typeof action === 'function') {
-        if (onAction) {
-          onAction(action.displayName || action.name, context);
+    for (const action of triggerdActions) {
+      if (typeof action === 'string') {
+        const actionFunction = actions[action];
+        if (typeof actionFunction === 'function') {
+          if (onAction) {
+            onAction(
+              actionFunction.displayName || actionFunction.name,
+              context
+            );
+          }
+          await actionFunction(context); // eslint-disable-line no-await-in-loop
+        } else {
+          warning(false, `${action} is missing in actions`);
         }
-        await action(context); // eslint-disable-line no-await-in-loop
-      } else {
-        warning(false, `${actionName} is missing in actions`);
+      } else if (typeof action === 'object') {
+        if (onAction) {
+          onAction(action, context);
+        }
+        if (typeof action.exec === 'function') {
+          await action.exec(context); // eslint-disable-line no-await-in-loop
+        }
       }
     }
 
