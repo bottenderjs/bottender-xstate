@@ -171,7 +171,7 @@ it('should support named guards', async () => {
       states: {
         green: {
           on: {
-            TIMER: { yellow: { cond: 'someCond' } },
+            TIMER: { target: 'yellow', cond: 'someCond' },
           },
           onExit: 'leaveGreen',
         },
@@ -225,9 +225,8 @@ it('should support transition actions', async () => {
         red: {
           on: {
             TIMER: {
-              green: {
-                actions: ['fromRedToGreen'],
-              },
+              target: 'green',
+              actions: ['fromRedToGreen'],
             },
           },
           onEntry: 'enterRed',
