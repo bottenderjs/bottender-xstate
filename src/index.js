@@ -57,6 +57,8 @@ function bottenderXstate({
         if (typeof action.exec === 'function') {
           await action.exec(context); // eslint-disable-line no-await-in-loop
         }
+      } else if (typeof action === 'function') {
+        await action(contextExtendedState, event); // eslint-disable-line no-await-in-loop
       }
     }
 
