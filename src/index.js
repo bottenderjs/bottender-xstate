@@ -36,15 +36,43 @@ function bottenderXstate({
 
     const triggerdActions = nextState.actions;
 
-    for (const actionName of triggerdActions) {
-      const action = actions[actionName];
-      if (typeof action === 'function') {
-        if (onAction) {
-          onAction(action.displayName || action.name, context);
-        }
-        await action(context); // eslint-disable-line no-await-in-loop
+    function onActionChecker(actionFunction) {
+      if (onAction) {
+        onAction(actionFunction.displayName || actionFunction.name, context);
+      }
+    }
+
+    async function actionStringHandler(actionName) {
+      const actionFunction = actions[actionName];
+      if (typeof actionFunction === 'function') {
+        onActionChecker(actionFunction);
+        await actionFunction(context, event); // eslint-disable-line no-await-in-loop
       } else {
         warning(false, `${actionName} is missing in actions`);
+      }
+    }
+
+    async function actionObjectHandler(actionObject) {
+      if (typeof actionObject.exec === 'function') {
+        onActionChecker(actionObject.exec);
+        await actionObject.exec(context, event); // eslint-disable-line no-await-in-loop
+      } else if (typeof actionObject.type === 'string') {
+        await actionStringHandler(actionObject.type);
+      }
+    }
+
+    async function actionFunctionHandler(actionFunction) {
+      onActionChecker(actionFunction);
+      await actionFunction(context, event);
+    }
+
+    for (const action of triggerdActions) {
+      if (typeof action === 'string') {
+        await actionStringHandler(action); // eslint-disable-line no-await-in-loop
+      } else if (typeof action === 'object') {
+        await actionObjectHandler(action); // eslint-disable-line no-await-in-loop
+      } else if (typeof action === 'function') {
+        await actionFunctionHandler(action); // eslint-disable-line no-await-in-loop
       }
     }
 
