@@ -56,8 +56,8 @@ function bottenderXstate({
       if (typeof actionObject.exec === 'function') {
         onActionChecker(actionObject.exec);
         await actionObject.exec(context, event); // eslint-disable-line no-await-in-loop
-      } else if (typeof actionObject.exec === 'string') {
-        await actionStringHandler(actionObject.exec);
+      } else if (typeof actionObject.type === 'string') {
+        await actionStringHandler(actionObject.type);
       }
     }
 
