@@ -36,29 +36,43 @@ function bottenderXstate({
 
     const triggerdActions = nextState.actions;
 
+    function onActionChecker(actionFunction) {
+      if (onAction) {
+        onAction(actionFunction.displayName || actionFunction.name, context);
+      }
+    }
+
+    async function actionStringHandler(actionName) {
+      const actionFunction = actions[actionName];
+      if (typeof actionFunction === 'function') {
+        onActionChecker(actionFunction);
+        await actionFunction(context, event); // eslint-disable-line no-await-in-loop
+      } else {
+        warning(false, `${actionName} is missing in actions`);
+      }
+    }
+
+    async function actionObjectHandler(actionObject) {
+      if (typeof actionObject.exec === 'function') {
+        onActionChecker(actionObject.exec);
+        await actionObject.exec(context, event); // eslint-disable-line no-await-in-loop
+      } else if (typeof actionObject.exec === 'string') {
+        await actionStringHandler(actionObject.exec);
+      }
+    }
+
+    async function actionFunctionHandler(actionFunction) {
+      onActionChecker(actionFunction);
+      await actionFunction(context, event);
+    }
+
     for (const action of triggerdActions) {
       if (typeof action === 'string') {
-        const actionFunction = actions[action];
-        if (typeof actionFunction === 'function') {
-          if (onAction) {
-            onAction(
-              actionFunction.displayName || actionFunction.name,
-              context
-            );
-          }
-          await actionFunction(context); // eslint-disable-line no-await-in-loop
-        } else {
-          warning(false, `${action} is missing in actions`);
-        }
+        await actionStringHandler(action); // eslint-disable-line no-await-in-loop
       } else if (typeof action === 'object') {
-        if (onAction) {
-          onAction(action, context);
-        }
-        if (typeof action.exec === 'function') {
-          await action.exec(context); // eslint-disable-line no-await-in-loop
-        }
+        await actionObjectHandler(action); // eslint-disable-line no-await-in-loop
       } else if (typeof action === 'function') {
-        await action(contextExtendedState, event); // eslint-disable-line no-await-in-loop
+        await actionFunctionHandler(action); // eslint-disable-line no-await-in-loop
       }
     }
 
