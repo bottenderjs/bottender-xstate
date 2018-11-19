@@ -5,8 +5,8 @@ it('should transform catch-all event', () => {
     states: {
       a: {
         on: {
-          SOMETHING: 'somthing',
-          '*': 'other',
+          SOMETHING: { target: 'somthing' },
+          '*': { target: 'other' },
         },
       },
     },
@@ -18,9 +18,9 @@ it('should transform catch-all event', () => {
     states: {
       a: {
         on: {
-          SOMETHING: 'somthing',
-          OTHER_A: 'other',
-          OTHER_B: 'other',
+          SOMETHING: { target: 'somthing' },
+          OTHER_A: { target: 'other' },
+          OTHER_B: { target: 'other' },
         },
       },
     },
@@ -33,14 +33,14 @@ it('should work with hierarchical machines', () => {
     states: {
       walk: {
         on: {
-          PED_COUNTDOWN: 'wait',
-          '*': 'other',
+          PED_COUNTDOWN: { target: 'wait' },
+          '*': { target: 'other' },
         },
       },
       wait: {
         on: {
-          PED_COUNTDOWN: 'stop',
-          '*': 'other',
+          PED_COUNTDOWN: { target: 'stop' },
+          '*': { target: 'other' },
         },
       },
       stop: {},
@@ -53,14 +53,14 @@ it('should work with hierarchical machines', () => {
     states: {
       a: {
         on: {
-          SOMETHING: 'somthing',
-          '*': 'other',
+          SOMETHING: { target: 'somthing' },
+          '*': { target: 'other' },
         },
       },
       other: {
         on: {
-          TIMER: 'green',
-          POWER_OUTAGE: 'red',
+          TIMER: { target: 'green' },
+          POWER_OUTAGE: { target: 'red' },
         },
         ...pedestrianStates,
       },
@@ -84,39 +84,39 @@ it('should work with hierarchical machines', () => {
     states: {
       a: {
         on: {
-          SOMETHING: 'somthing',
-          TIMER: 'other',
-          POWER_OUTAGE: 'other',
-          PED_COUNTDOWN: 'other',
-          OTHER_A: 'other',
-          OTHER_B: 'other',
+          SOMETHING: { target: 'somthing' },
+          TIMER: { target: 'other' },
+          POWER_OUTAGE: { target: 'other' },
+          PED_COUNTDOWN: { target: 'other' },
+          OTHER_A: { target: 'other' },
+          OTHER_B: { target: 'other' },
         },
       },
       other: {
         on: {
-          TIMER: 'green',
-          POWER_OUTAGE: 'red',
+          TIMER: { target: 'green' },
+          POWER_OUTAGE: { target: 'red' },
         },
         initial: 'walk',
         states: {
           walk: {
             on: {
-              SOMETHING: 'other',
-              TIMER: 'other',
-              POWER_OUTAGE: 'other',
-              PED_COUNTDOWN: 'wait',
-              OTHER_A: 'other',
-              OTHER_B: 'other',
+              SOMETHING: { target: 'other' },
+              TIMER: { target: 'other' },
+              POWER_OUTAGE: { target: 'other' },
+              PED_COUNTDOWN: { target: 'wait' },
+              OTHER_A: { target: 'other' },
+              OTHER_B: { target: 'other' },
             },
           },
           wait: {
             on: {
-              SOMETHING: 'other',
-              TIMER: 'other',
-              POWER_OUTAGE: 'other',
-              PED_COUNTDOWN: 'stop',
-              OTHER_A: 'other',
-              OTHER_B: 'other',
+              SOMETHING: { target: 'other' },
+              TIMER: { target: 'other' },
+              POWER_OUTAGE: { target: 'other' },
+              PED_COUNTDOWN: { target: 'stop' },
+              OTHER_A: { target: 'other' },
+              OTHER_B: { target: 'other' },
             },
           },
           stop: {},

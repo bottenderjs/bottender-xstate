@@ -1,26 +1,26 @@
 const bottenderXstate = require('../');
 
 const config = {
-  key: 'light',
+  id: 'light',
   initial: 'green',
   states: {
     green: {
       on: {
-        TIMER: 'yellow',
+        TIMER: { target: 'yellow' },
       },
       onEntry: 'enterGreen',
       onExit: 'leaveGreen',
     },
     yellow: {
       on: {
-        TIMER: 'red',
+        TIMER: { target: 'red' },
       },
       onEntry: 'enterYellow',
       onExit: 'leaveYellow',
     },
     red: {
       on: {
-        TIMER: 'green',
+        TIMER: { target: 'green' },
       },
       onEntry: 'enterRed',
       onExit: 'leaveRed',
@@ -166,12 +166,12 @@ it('should support named guards', async () => {
   const someCond = jest.fn(() => true);
   const handler = bottenderXstate({
     config: {
-      key: 'light',
+      id: 'light',
       initial: 'green',
       states: {
         green: {
           on: {
-            TIMER: { yellow: { cond: 'someCond' } },
+            TIMER: { target: 'yellow', cond: 'someCond' },
           },
           onExit: 'leaveGreen',
         },
@@ -205,19 +205,19 @@ it('should support named guards', async () => {
 it('should support transition actions', async () => {
   const handler = bottenderXstate({
     config: {
-      key: 'light',
+      id: 'light',
       initial: 'green',
       states: {
         green: {
           on: {
-            TIMER: 'yellow',
+            TIMER: { target: 'yellow' },
           },
           onEntry: 'enterGreen',
           onExit: 'leaveGreen',
         },
         yellow: {
           on: {
-            TIMER: 'red',
+            TIMER: { target: 'red' },
           },
           onEntry: 'enterYellow',
           onExit: 'leaveYellow',
@@ -225,9 +225,8 @@ it('should support transition actions', async () => {
         red: {
           on: {
             TIMER: {
-              green: {
-                actions: ['fromRedToGreen'],
-              },
+              target: 'green',
+              actions: ['fromRedToGreen'],
             },
           },
           onEntry: 'enterRed',
@@ -268,19 +267,19 @@ it('should support transition actions', async () => {
 it('should support transition actions of object type, and action exec of string type', async () => {
   const handler = bottenderXstate({
     config: {
-      key: 'light',
+      id: 'light',
       initial: 'green',
       states: {
         green: {
           on: {
-            TIMER: 'yellow',
+            TIMER: { target: 'yellow' },
           },
           onEntry: 'enterGreen',
           onExit: 'leaveGreen',
         },
         yellow: {
           on: {
-            TIMER: 'red',
+            TIMER: { target: 'red' },
           },
           onEntry: 'enterYellow',
           onExit: 'leaveYellow',
@@ -288,9 +287,8 @@ it('should support transition actions of object type, and action exec of string 
         red: {
           on: {
             TIMER: {
-              green: {
-                actions: [{ type: 'fromRedToGreen' }],
-              },
+              target: 'green',
+              actions: [{ type: 'fromRedToGreen' }],
             },
           },
           onEntry: 'enterRed',
@@ -331,19 +329,19 @@ it('should support transition actions of object type, and action exec of string 
 it('should support transition actions of object type, and action exec of function type', async () => {
   const handler = bottenderXstate({
     config: {
-      key: 'light',
+      id: 'light',
       initial: 'green',
       states: {
         green: {
           on: {
-            TIMER: 'yellow',
+            TIMER: { target: 'yellow' },
           },
           onEntry: 'enterGreen',
           onExit: 'leaveGreen',
         },
         yellow: {
           on: {
-            TIMER: 'red',
+            TIMER: { target: 'red' },
           },
           onEntry: 'enterYellow',
           onExit: 'leaveYellow',
@@ -351,74 +349,13 @@ it('should support transition actions of object type, and action exec of functio
         red: {
           on: {
             TIMER: {
-              green: {
-                actions: [
-                  {
-                    type: 'xxx',
-                    exec: context => context.sendText('from red to green'),
-                  },
-                ],
-              },
-            },
-          },
-          onEntry: 'enterRed',
-          onExit: 'leaveRed',
-        },
-      },
-    },
-    mapContextToXstateEvent,
-    actions,
-  });
-
-  const context = {
-    state: {
-      xstate: {
-        value: 'red',
-        historyValue: {
-          current: 'red',
-          states: { green: undefined, red: undefined, yellow: undefined },
-        },
-      },
-    },
-    setState: jest.fn(),
-    sendText: jest.fn(),
-  };
-
-  await handler(context);
-
-  expect(context.sendText.mock.calls.map(call => call[0])).toEqual([
-    'leave red',
-    'from red to green',
-    'enter green',
-  ]);
-});
-
-it('should support transition actions of function type', async () => {
-  const handler = bottenderXstate({
-    config: {
-      key: 'light',
-      initial: 'green',
-      states: {
-        green: {
-          on: {
-            TIMER: 'yellow',
-          },
-          onEntry: 'enterGreen',
-          onExit: 'leaveGreen',
-        },
-        yellow: {
-          on: {
-            TIMER: 'red',
-          },
-          onEntry: 'enterYellow',
-          onExit: 'leaveYellow',
-        },
-        red: {
-          on: {
-            TIMER: {
-              green: {
-                actions: [context => context.sendText('from red to green')],
-              },
+              target: 'green',
+              actions: [
+                {
+                  type: 'xxx',
+                  exec: context => context.sendText('from red to green'),
+                },
+              ],
             },
           },
           onEntry: 'enterRed',

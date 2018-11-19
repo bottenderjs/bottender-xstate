@@ -61,18 +61,11 @@ function bottenderXstate({
       }
     }
 
-    async function actionFunctionHandler(actionFunction) {
-      onActionChecker(actionFunction);
-      await actionFunction(context, event);
-    }
-
     for (const action of triggerdActions) {
       if (typeof action === 'string') {
         await actionStringHandler(action); // eslint-disable-line no-await-in-loop
       } else if (typeof action === 'object') {
         await actionObjectHandler(action); // eslint-disable-line no-await-in-loop
-      } else if (typeof action === 'function') {
-        await actionFunctionHandler(action); // eslint-disable-line no-await-in-loop
       }
     }
 
