@@ -5,26 +5,26 @@ const bottenderXstate = require('../src');
 const bot = new ConsoleBot();
 
 const config = {
-  key: 'light',
+  id: 'light',
   initial: 'green',
   states: {
     green: {
       on: {
-        TIMER: 'yellow',
+        TIMER: { target: 'yellow' },
       },
       onEntry: 'enterGreen',
       onExit: 'leaveGreen',
     },
     yellow: {
       on: {
-        TIMER: 'red',
+        TIMER: { target: 'red' },
       },
       onEntry: 'enterYellow',
       onExit: 'leaveYellow',
     },
     red: {
       on: {
-        TIMER: 'green',
+        TIMER: { target: 'green' },
       },
       onEntry: 'enterRed',
       onExit: 'leaveRed',
