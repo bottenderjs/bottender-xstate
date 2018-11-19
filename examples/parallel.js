@@ -6,7 +6,8 @@ const bottenderXstate = require('../src');
 const bot = new ConsoleBot();
 
 const config = {
-  parallel: true,
+  id: 'word',
+  type: 'parallel',
   initial: 'bold.off',
   states: {
     bold: {

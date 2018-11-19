@@ -5,18 +5,19 @@ const bottenderXstate = require('../src');
 const bot = new ConsoleBot();
 
 const config = {
+  id: 'payment',
   initial: 'method',
   states: {
     method: {
       initial: 'cash',
       states: {
         cash: {
-          on: { SWITCH_CHECK: 'check' },
+          on: { SWITCH_CHECK: { target: 'check' } },
           onEntry: 'enterMethodCash',
           onExit: 'leaveMethodCash',
         },
         check: {
-          on: { SWITCH_CASH: 'cash' },
+          on: { SWITCH_CASH: { target: 'cash' } },
           onEntry: 'enterMethodCheck',
           onExit: 'leaveMethodCheck',
         },
@@ -24,12 +25,12 @@ const config = {
           history: true,
         },
       },
-      on: { NEXT: 'review' },
+      on: { NEXT: { target: 'review' } },
       onEntry: 'enterMethod',
       onExit: 'leaveMethod',
     },
     review: {
-      on: { PREVIOUS: 'method.history' },
+      on: { PREVIOUS: { target: 'method.history' } },
       onEntry: 'enterReview',
       onExit: 'leaveReview',
     },

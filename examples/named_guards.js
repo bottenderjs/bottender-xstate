@@ -5,35 +5,35 @@ const bottenderXstate = require('../src');
 const bot = new ConsoleBot();
 
 const config = {
-  key: 'light',
+  id: 'light',
   initial: 'green',
   states: {
     green: {
       on: {
-        TIMER: {
-          yellow: { cond: 'oneSecondElapsed' },
-          green: { actions: ['updateElapsedTime'] },
-        },
+        TIMER: [
+          { target: 'yellow', cond: 'oneSecondElapsed' },
+          { target: 'green', actions: ['updateElapsedTime'] },
+        ],
       },
       onEntry: 'enterGreen',
       onExit: 'leaveGreen',
     },
     yellow: {
       on: {
-        TIMER: {
-          red: { cond: 'oneSecondElapsed' },
-          yellow: { actions: ['updateElapsedTime'] },
-        },
+        TIMER: [
+          { target: 'red', cond: 'oneSecondElapsed' },
+          { target: 'yellow', actions: ['updateElapsedTime'] },
+        ],
       },
       onEntry: 'enterYellow',
       onExit: 'leaveYellow',
     },
     red: {
       on: {
-        TIMER: {
-          green: { cond: 'oneSecondElapsed' },
-          red: { actions: ['updateElapsedTime'] },
-        },
+        TIMER: [
+          { target: 'green', cond: 'oneSecondElapsed' },
+          { target: 'red', actions: ['updateElapsedTime'] },
+        ],
       },
       onEntry: 'enterRed',
       onExit: 'leaveRed',
