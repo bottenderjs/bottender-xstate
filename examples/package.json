@@ -1,5 +1,5 @@
 {
-  "name": "exampes",
+  "name": "examples",
   "version": "1.0.0",
   "description": "",
   "main": "basic.js",
@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bottender": "^0.15.1",
+    "bottender": "^0.15.14",
     "random-item": "^1.0.0"
   }
 }
