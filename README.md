@@ -28,19 +28,19 @@ npm install bottender-xstate
 const bottenderXstate = require('bottender-xstate');
 
 const config = {
-  key: 'light',
+  id: 'light',
   initial: 'green',
   states: {
     green: {
       on: {
-        TIMER: 'yellow',
+        TIMER: { target: 'yellow' },
       },
       onEntry: 'enterGreen',
       onExit: 'leaveGreen',
     },
     yellow: {
       on: {
-        TIMER: 'red',
+        TIMER: { target: 'red' },
       },
       onEntry: 'enterYellow',
       onExit: 'leaveYellow',
@@ -48,10 +48,9 @@ const config = {
     red: {
       on: {
         TIMER: {
-          green: {
-            actions: ['fromRedToGreen'],
-          },
-        }
+          target: 'green',
+          actions: ['fromRedToGreen'],
+        },
       },
       onEntry: 'enterRed',
       onExit: 'leaveRed',
