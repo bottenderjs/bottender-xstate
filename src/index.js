@@ -24,6 +24,8 @@ function bottenderXstate({
       : machine.initialState;
     const event = await mapContextToXstateEvent(context);
 
+    if (!event) return;
+
     if (onEvent) {
       onEvent(event, context);
     }
