@@ -12,7 +12,7 @@ function bottenderXstate({
   onEvent,
   onAction,
 }) {
-  return async context => {
+  return async function Xstate(context) {
     const transformedConfig = transformConfig(config, { events });
     const machine = Machine(transformedConfig, { guards });
 
