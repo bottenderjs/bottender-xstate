@@ -121,6 +121,22 @@ it('should load state from session', async () => {
   });
 });
 
+it('should not throw when no valid xstate event returned', async () => {
+  const handler = bottenderXstate({
+    config,
+    mapContextToXstateEvent: () => {},
+    actions,
+  });
+
+  const context = {
+    state: {},
+    setState: jest.fn(),
+    sendText: jest.fn(),
+  };
+
+  await handler(context);
+});
+
 it('should call onEvent with event', async () => {
   const onEvent = jest.fn();
   const handler = bottenderXstate({
