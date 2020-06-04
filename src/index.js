@@ -81,4 +81,24 @@ function bottenderXstate({
   };
 }
 
+function getExtendedState(context) {
+  return context.state.extendedState;
+}
+
+function setExtendedState(context, stateToBeSet) {
+  if (!context.state.extendedState) {
+    // eslint-disable-next-line no-param-reassign
+    context.state.extendedState = stateToBeSet;
+  }
+
+  // eslint-disable-next-line no-param-reassign
+  context.state.extendedState = {
+    ...context.state.extendedState,
+    ...stateToBeSet,
+  };
+}
+
+bottenderXstate.getExtendedState = getExtendedState;
+bottenderXstate.setExtendedState = setExtendedState;
+
 module.exports = bottenderXstate;
